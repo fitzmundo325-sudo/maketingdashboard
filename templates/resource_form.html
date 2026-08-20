@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if resource else 'New' }} Resource · HYG Marketing Hub{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('brand_view', brand_id=category.brand_id) }}">{{ category.brand.name }}</a></li>
+    <li class="breadcrumb-item active">{{ 'Edit' if resource else 'New' }} Resource</li>
+  </ol>
+</nav>
+
+<div class="card shadow-sm" style="max-width: 720px;">
+  <div class="card-body">
+    <h4 class="fw-bold mb-3">{{ 'Edit Resource' if resource else 'Add Resource' }}</h4>
+    <p class="text-secondary small">Category: <strong>{{ category.name }}</strong> · Brand: <strong>{{ category.brand.name }}</strong></p>
+
+    {% include "_resource_form.html" %}
+  </div>
+</div>
+
+{% endblock %}

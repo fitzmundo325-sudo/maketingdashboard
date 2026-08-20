@@ -1,0 +1,1263 @@
+{
+  "GOLDILOCKS": [
+    {
+      "no": "1.0",
+      "name": "In Progress",
+      "link": "Coin Bank Request Coin Bank Request",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "2.0",
+      "name": "Coinbank Release Database",
+      "link": "COINBANK DATABASE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "3.0",
+      "name": "Coinbank QR Code System",
+      "link": "Coin Bank QR System",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "4.0",
+      "name": "Coinbank Replenishment Database",
+      "link": "Petty Cash replenishment template.xlsx",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "5.0",
+      "name": "Store View Database",
+      "link": "STORE VIEW DATABASE spon",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "6.0",
+      "name": "For Store: Coinbank Google Form (Remittance)",
+      "link": "https://forms.gle/Kp3dEock3rxX6p9N8",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "7.0",
+      "name": "Coinbank Store Remittance Responses",
+      "link": "Coin Bank Store Remittance Responses",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "8.0",
+      "name": "Brigada Eskwela Donation",
+      "link": "Brigada Eskwela List of Schools",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "9.0",
+      "name": "Marketing Memo",
+      "link": "MEMORANDUM FOR COINBANK",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": null,
+      "name": "Coinbank Return Data",
+      "link": "COINBANKL DATA RETURNS",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": null,
+      "name": "Novelty PULL OUT & INVENTORY",
+      "link": "NOVELTY SEAVAN PULL OUT & INVENTORY",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "COINBANK"
+    },
+    {
+      "no": "10.0",
+      "name": "Novelty Returns Database Not Updated",
+      "link": "0.0",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "NOVELTIES"
+    },
+    {
+      "no": "11.0",
+      "name": "Novelties Backtrack UPDATED",
+      "link": "Novelties Backtrack As of Sept",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "NOVELTIES"
+    },
+    {
+      "no": "12.0",
+      "name": "Sponsorship Google Form Request",
+      "link": "Sponsorship Request Report",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SPONSORSHIP DATABASE"
+    },
+    {
+      "no": "13.0",
+      "name": "Sponsorship Drive",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SPONSORSHIP DATABASE"
+    },
+    {
+      "no": "14.0",
+      "name": "Sponsorship Request Report Format",
+      "link": "SPONSORSHIP REQUEST REPORT",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SPONSORSHIP DATABASE"
+    },
+    {
+      "no": "15.0",
+      "name": "GC Printable / Gc Transmital Form",
+      "link": "GC Printable / Gc Transmittal Form",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SPONSORSHIP DATABASE"
+    },
+    {
+      "no": "16.0",
+      "name": "Income Statements",
+      "link": "Marketing Income Statement",
+      "instructions": "Marketing Income Statement",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "17.0",
+      "name": "Say it With a Goldilocks Cake Promo Database",
+      "link": "Say It With A Goldilocks Cake Pre-Selling Data",
+      "instructions": "COST: Flower Balloon - 58 | Cake - 720 | Promo Price - 899 | 1 Cake Salted Caramel Crunch",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "18.0",
+      "name": "Graduation Promo Database",
+      "link": "CFI GRADUATION PROMO DATABASE",
+      "instructions": "COST: Journal - 250 | Cake - 495  Promo Price - 799 | Cake - 710  Promo Price - 999 | Average Packaging Cost per Item 25 pesos",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "19.0",
+      "name": "Sweet Notes Bundle Database",
+      "link": "SWEET NOTES BUNDLE",
+      "instructions": "250 per piece",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "20.0",
+      "name": "Mother's Day Flower Balloon Database",
+      "link": "MOTHER'S DAY FLOWER BALLOON DATABASE",
+      "instructions": "COST: Flower Balloon - 42 | Cake - 710 | Promo Price - 899",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "21.0",
+      "name": "Election Promo Database",
+      "link": "ELECTION PROMO SANITIZER",
+      "instructions": "COST: Sanitizer - 25 | Print on Sanitizer - 25 pesos | Promo Price - 499 | Cake - 375",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "22.0",
+      "name": "Father's Day Promo",
+      "link": "FATHER'S DAY PROMO BEER MUG",
+      "instructions": "COST: Beer Mug - 70 | Print on Beer Mug - 30 | Cake - 495 | Promo Price - 699",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "23.0",
+      "name": "Tamang Tamis Sa Tag Ulan",
+      "link": "RAINY SEASON PROMO DATABASE [JULY 14 - AUG 14]",
+      "instructions": "COST: Umbrella - 130 | (Regular Price Store) Cake - 485 Promo Price 679 | (Regional Price Store) Cake - 510 Promo Price 699 |Mug Box 10 Mug - 38 pesos Printing on Mug 35 pesos | Cake - 380 Promo Price 499  | Cake - 395 Promo Price 519",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "24.0",
+      "name": "Sweet Grand Surprise",
+      "link": "SWEET GRAND SURPRISE",
+      "instructions": "https://www.canva.com/design/DAGucbuaOU8/rQXt4HP17Tvz5poHZJrKkA/edit?utm_content=DAGucbuaOU8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "25.0",
+      "name": "Grandest Handaan For The Grands",
+      "link": "GRANDEST HANDAAN FOR THE GRANDS",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "26.0",
+      "name": "Sweet Notes and Coaster Bundle (Teacher's Day)",
+      "link": "SWEET NOTES AND COASTER BUNDLE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "27.0",
+      "name": "Halloween Mystery Box",
+      "link": "HALLOWEEN MYSTERY BOX",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "RUNNING PROMO"
+    },
+    {
+      "no": "27.0",
+      "name": "Price Tag Request Form",
+      "link": "https://forms.gle/K2MFykwHAhQofijt8",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PRICE TAG AND RELATED REQUISITION"
+    },
+    {
+      "no": "28.0",
+      "name": "Price Tag Request Responses",
+      "link": "Price Tag Request Form (Responses)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PRICE TAG AND RELATED REQUISITION"
+    },
+    {
+      "no": "29.0",
+      "name": "Price Tag Updated Price List",
+      "link": "GOLDILOCKS PRICE TAG UPDATED PRICES",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PRICE TAG AND RELATED REQUISITION"
+    },
+    {
+      "no": "30.0",
+      "name": "Non-Regional Priced Price Tags",
+      "link": "NON-REGIONAL PRICED PRICE TAGS",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PRICE TAG AND RELATED REQUISITION"
+    },
+    {
+      "no": "31.0",
+      "name": "Regional Priced Price Tags",
+      "link": "REGIONAL PRICED PRICE TAGS",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PRICE TAG AND RELATED REQUISITION"
+    },
+    {
+      "no": "32.0",
+      "name": "Canva Layout of the Menu - Non Premium Price",
+      "link": "https://www.canva.com/design/DAGsvcxXrrw/mi480gI4owC17kN5va6zFw/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": "33.0",
+      "name": "Canva Layout of the Menu - Premium Price",
+      "link": "https://www.canva.com/design/DAGsdUucbCQ/Qkz0uT-Wg9Jz1V-W3Ucz4A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": "34.0",
+      "name": "Canva Layout of the Menu - No Price",
+      "link": "https://www.canva.com/design/DAGsvfoE0M0/Wpp953Bbd7KU-g7gq5am3g/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": "35.0",
+      "name": "Reseller Kit",
+      "link": "(lay out of tarpaulin)",
+      "instructions": "Tarpaulin (1); Menu list (1); Ordering Form (1); Novelties: Umbrella (1)",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "(menu list)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "(ordering form)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "monitoring of releasing of reseller kit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MENU LAYOUT"
+    },
+    {
+      "no": "36.0",
+      "name": "Online Delivery Database",
+      "link": "ONLINE DELIVERY DATABSE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "ONLINE DELIVERY PLATFORMS"
+    },
+    {
+      "no": "37",
+      "name": "San Juan Satellite Booth Pre-Selling Database",
+      "link": "SAN JUAN SATELLITE BOOTH PRE-SELLING DATABASE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "38",
+      "name": "Calubian Store Opening Database",
+      "link": "CALUBIAN STORE OPENING DATABASE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "39",
+      "name": "Tanauan Store Opening Database",
+      "link": "TANAUAN STORE OPENING DATABASE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "40",
+      "name": "Taft Store Opening Database",
+      "link": "TAFT STORE OPENING DATABASE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "41",
+      "name": "Calbiga Store Opening Database",
+      "link": "CALBIGA STORE OPENING DATABASE",
+      "instructions": "Taft Opening Layout.zip",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "42",
+      "name": "Gen Mac Store Opening Database",
+      "link": "GEN MAC STORE OPENING DATABASE",
+      "instructions": "Gen Mac Opening",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "STORE OPENING DATABASE"
+    },
+    {
+      "no": "#REF!",
+      "name": "Current Store Marketing Requests - July",
+      "link": "CURRENT STORE MARKETING REQUESTS - July",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "CURRENT STORE MARKETING REQUESTS"
+    },
+    {
+      "no": "#REF!",
+      "name": "Marketing Related Google Form",
+      "link": "https://forms.gle/qSrgdewkh77BQLvNA",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "CURRENT STORE MARKETING REQUESTS"
+    },
+    {
+      "no": null,
+      "name": "September",
+      "link": "https://www.canva.com/design/DAGucbuaOU8/rQXt4HP17Tvz5poHZJrKkA/edit?utm_content=DAGucbuaOU8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": "The promo guidelines is inside the Turnover Folder of this desktop",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MOVING FORWARD PLANS"
+    },
+    {
+      "no": null,
+      "name": "October",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MOVING FORWARD PLANS"
+    },
+    {
+      "no": null,
+      "name": "November",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MOVING FORWARD PLANS"
+    },
+    {
+      "no": null,
+      "name": "December",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MOVING FORWARD PLANS"
+    },
+    {
+      "no": null,
+      "name": "April",
+      "link": "https://www.canva.com/design/DAGjQnAroHE/rNC9cn3cOjTJt_jgO7BnXw/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "August",
+      "link": "https://www.canva.com/design/DAGus5ZriOU/wMGdD-ZouGary5r81s-3Zw/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "March",
+      "link": "https://www.canva.com/design/DAGgprDjLhc/Ly_fjgOpHQ-Z_tMjJ-l5Iw/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "May",
+      "link": "https://www.canva.com/design/DAGmjWEb-B0/feNE1K1UdVZjXg7Lp_fWLA/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "June",
+      "link": "https://www.canva.com/design/DAGpYOiYpig/Mihmjz4-GjmUNplxsevo4w/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Q4 Alignment Report",
+      "link": "https://www.canva.com/design/DAGSM_WWYqA/ZUIO9-KCjq2JFHbrKc-2Lw/edit?utm_content=DAGSM_WWYqA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "MANCOMM REPORTS"
+    },
+    {
+      "no": null,
+      "name": "VSS Sales Pitch",
+      "link": "https://www.canva.com/design/DAGR-blgg7Q/FilaY50x9550H8ltkYTD_w/edit?utm_content=DAGR-blgg7Q&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "Coca Cola Sales Pitch",
+      "link": "https://www.canva.com/design/DAGfmYVYEKw/So6rDUBPOJ1PlvzpzDVjVg/edit?utm_content=DAGfmYVYEKw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "St Peter Sales Pitch",
+      "link": "https://www.canva.com/design/DAGfzmfQ2-Q/iQm43XPh9pHNdr6do68H1g/edit?utm_content=DAGfzmfQ2-Q&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "Christmas Duo Sales Pitch Premuim Pricing",
+      "link": "https://www.canva.com/design/DAG2aF8ffCo/7BSxEWbQY8-m_qIOFgrHaQ/edit?ui=eyJBIjp7IkEiOiJ0ZW1wbGF0ZSIsIk8iOnsiQSI6IkVBRzJhTUw3U1hzIn19fQ",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "Christmas Duo Sales Pitch Non Premuim",
+      "link": "https://www.canva.com/design/DAG1o9WWnUw/wOuL3480dZYVpFWrgpxcKQ/edit?utm_content=DAG1o9WWnUw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "PROJECT REACH PROPOSALS",
+      "link": "https://drive.google.com/file/d/1OK3yfcIJBSzy-YEFMTyfvXM-R516Cqzv/view?usp=drive_link",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "https://drive.google.com/file/d/1RG9qDeVDaakuaVHEgQpEqCQMVVlutz71/view?usp=drive_link",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "https://drive.google.com/drive/u/0/home",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "SALES PITCH FORMATS"
+    },
+    {
+      "no": null,
+      "name": "Mothers Day",
+      "link": "https://www.canva.com/design/DAGkmccJ-7g/LSSRE3TC3TciUhpHjIRtBA/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Grand Parents Day",
+      "link": "https://www.canva.com/design/DAGucbuaOU8/rQXt4HP17Tvz5poHZJrKkA/edit?utm_content=DAGucbuaOU8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Fathers Day Promo",
+      "link": "https://www.canva.com/design/DAGo9pvc5i8/RzdrRmjgpqmP5XUctYDPUQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Rainy Day Pormo",
+      "link": "https://www.canva.com/design/DAGsGbfjbFs/aORwrbDj8Ow5-BkJouq74A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Graduation Promo",
+      "link": "https://www.canva.com/design/DAGismAkW3Y/cPTJ2g37HhDZuDht17ZAXg/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Valentines Promo",
+      "link": "https://www.canva.com/design/DAGbI852VX4/R1Wo2rx7mU7r1Ig39dLt6w/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Halloween Promo",
+      "link": "https://www.canva.com/design/DAGUic8MrH8/WHNkJKjuy3MWQ4kyf4XyMA/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "Marketing Calendar",
+      "link": "https://www.canva.com/design/DAGeJlI-8eg/ljnnukc64LRm3lqRajSY-g/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "PROMO REPORTS"
+    },
+    {
+      "no": null,
+      "name": "HYG PFA",
+      "link": "https://www.canva.com/design/DAGutuXHfhc/sfKgkXSBAfZPLjEoZDDLfA/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "HYG REPORTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "HONDA FUNRUN X ELEVATE COUPON",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "HYG REPORTS"
+    },
+    {
+      "no": "2025-09-18",
+      "name": "GC for Tinker House",
+      "link": "GIFT CERT MONITORING (TINKER HOUSE)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-09-23",
+      "name": "GC for Bb & G. Kalikasan (Calubian)",
+      "link": "GIFT CERT MONITORING (CALUBIAN PAGEANT)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-09-24",
+      "name": "GC for Mister and Miss ESSU (Guiuan)",
+      "link": "GIFT CERT MONITORING (MISTER AND MISS ESSU c/o GUIUAN )",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-06",
+      "name": "Updated Opening Coupons",
+      "link": "Updated Gc & Mamon Pre-Selling Coupons",
+      "instructions": "Printable Note: Deadline November 15,2025",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-06",
+      "name": "General Macarthur Opening Soon Banner, Flyers",
+      "link": "Gen Mac Opening",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-08",
+      "name": "International Cake Day",
+      "link": "International Cakes Day",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-08",
+      "name": "Esel Airport Design",
+      "link": "Easel Design for Airport Store",
+      "instructions": "Note: For Qoutation",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-11",
+      "name": "Duo Match Bundle For December",
+      "link": "December Match Cake And Pasalubong",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-11",
+      "name": "Halloween Promo - Mystery Box: Pick a Treat or Face a Trick!\u201d",
+      "link": "HALLOWEEN PROMO",
+      "instructions": "Printable & DATABASE",
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-21",
+      "name": "Valencia Coupon",
+      "link": "Valencia Monitoring Coupon",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "MENU PRICES UPDATED",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-28",
+      "name": "Pamphlet for Premium Stores",
+      "link": "Premium Pamphlet Menu",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-10-28",
+      "name": "Pamphlet for Non Premium Stores",
+      "link": "",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-11-05",
+      "name": "Marketing Requisition Form",
+      "link": "Marketing Requisition Form",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": "2025-11-05",
+      "name": "Marketing Requisition Form  Responses",
+      "link": "MARKETING-RELATED REQUISITION FORM (Responses)",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "MARKETING REQUEST",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "Marketing Request Data",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "MARKETING Requisition Form",
+      "link": "https://script.google.com/macros/s/AKfycbyjIBCgNAUWC23RUOJRx0sJLxhf8C4V0vswhZJNQx3y/dev",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "Untitled spreadsheet",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "2026 MARKETING PROMOS",
+      "link": null,
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "FEBRUARY",
+      "link": "https://docs.google.com/document/d/1iavT41zoA9xKIT3XM5i_uTZ_UMY0y0ypZniNW22jWLA/edit?tab=t.gzaxt2kd6dn4",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "FEB PROMO BUNDLE SOLD + INVENTORY",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": "MARCH",
+      "link": "FEB PROMO BUNDLE SOLD + INVENTORY",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "WOMENS MONTH MONITORING",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "GRADUATION PROMO BUNDLE",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    },
+    {
+      "no": null,
+      "name": null,
+      "link": "MARKETING PLANS 2026",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "GIFT CERTS"
+    }
+  ],
+  "SAVORY": [
+    {
+      "no": null,
+      "name": "RAINY DAY ADD ONS PROMO",
+      "link": "RAINY ADD ONS PROMO - SIT [JULY 26 - AUGUST 26, 2025]",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "SUMMER PROMO",
+      "link": "https://www.canva.com/design/DAGhT1FHuN8/hyiH-ovw6YtqjB6jZYr9GQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report",
+      "link": "https://www.canva.com/design/DAGvHJWEz2w/El5P4DoLT92-oQV8oMgO1Q/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Board Meeting Report",
+      "link": "https://www.canva.com/design/DAGqZuX4yT0/LukFpi1o57-lQVng5bfLCQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report June",
+      "link": "https://www.canva.com/design/DAGnSsNVJX0/KdL6KFyMt-IfvAhK43Mo2A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    }
+  ],
+  "ICEBERGS": [
+    {
+      "no": null,
+      "name": null,
+      "link": "RAINY ADD ONS PROMO - SIT [JULY 26 - AUGUST 26, 2025]",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "SUMMER PROMO",
+      "link": "https://www.canva.com/design/DAGhT1FHuN8/hyiH-ovw6YtqjB6jZYr9GQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report",
+      "link": "https://www.canva.com/design/DAGvHJWEz2w/El5P4DoLT92-oQV8oMgO1Q/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Board Meeting Report",
+      "link": "https://www.canva.com/design/DAGqZuX4yT0/LukFpi1o57-lQVng5bfLCQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report June",
+      "link": "https://www.canva.com/design/DAGnSsNVJX0/KdL6KFyMt-IfvAhK43Mo2A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    }
+  ],
+  "TATERS": [
+    {
+      "no": null,
+      "name": null,
+      "link": "RAINY ADD ONS PROMO - SIT [JULY 26 - AUGUST 26, 2025]",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mother's Day Promo",
+      "link": "https://www.canva.com/design/DAGl5nKaq2Q/ByGQ9WeTClULgfrQMv0w_Q/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Reporr",
+      "link": "https://www.canva.com/design/DAGvHJWEz2w/El5P4DoLT92-oQV8oMgO1Q/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Board Meeting Report",
+      "link": "https://www.canva.com/design/DAGqZuX4yT0/LukFpi1o57-lQVng5bfLCQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report June",
+      "link": "https://www.canva.com/design/DAGnSsNVJX0/KdL6KFyMt-IfvAhK43Mo2A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    }
+  ],
+  "CHATIME": [
+    {
+      "no": null,
+      "name": "Opening Presentation",
+      "link": "https://www.canva.com/design/DAGq23MGqSA/_wqmmn6RPINpjb0J3Xl-lg/edit?utm_content=DAGq23MGqSA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Letter Head",
+      "link": "https://www.canva.com/design/DAGqmI4Oa4Y/cT6AiE2OD00t6yHoaT0LRQ/edit?utm_content=DAGqmI4Oa4Y&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Opening Invitation",
+      "link": "https://www.canva.com/design/DAGq-pg2jPg/Pwh2qys92_o-IOmSRRklrA/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report",
+      "link": "https://www.canva.com/design/DAGvHJWEz2w/El5P4DoLT92-oQV8oMgO1Q/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Board Meeting Report",
+      "link": "https://www.canva.com/design/DAGqZuX4yT0/LukFpi1o57-lQVng5bfLCQ/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    },
+    {
+      "no": null,
+      "name": "Mancomm Report June",
+      "link": "https://www.canva.com/design/DAGnSsNVJX0/KdL6KFyMt-IfvAhK43Mo2A/edit",
+      "instructions": null,
+      "created_by": null,
+      "access": null,
+      "status": null,
+      "category": "General"
+    }
+  ],
+  "ELEVATE": []
+}

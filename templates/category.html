@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }} · {{ category.brand.name }} · HYG Marketing Hub{% endblock %}
+
+{% macro row_actions(r) %}
+<td class="text-end">
+  <a href="{{ url_for('resource_edit', resource_id=r.id) }}" class="btn btn-sm btn-outline-secondary btn-edit">
+    <i class="bi bi-pencil"></i>
+  </a>
+  <form action="{{ url_for('resource_delete', resource_id=r.id) }}" method="post" class="d-inline"
+        onsubmit="return confirm('Delete this resource?');">
+    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+  </form>
+</td>
+{% endmacro %}
+
+{% macro resource_table(resources, col_keys, field_labels) %}
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover table-striped align-middle mb-0 resource-table" data-paginate>
+      {% if col_keys %}
+      <thead class="table-light">
+        <tr>
+          {% for k in col_keys %}<th scope="col">{{ field_labels.get(k, k) }}</th>{% endfor %}
+          <th scope="col" class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in resources %}
+        <tr>
+          {% for k in col_keys %}
+          {% set val = field_value(r, k) %}
+          <td class="cell-data{% if val and '\n' in val %} cell-multiline{% endif %}">
+            {%- if k|lower == 'status' and val in status_choices -%}
+            <span class="badge status-badge status-{{ val|lower|replace(' ', '-') }}">{{ val }}</span>
+            {%- elif val -%}{{ val }}{%- else -%}—{%- endif -%}
+          </td>
+          {% endfor %}
+          {{ row_actions(r) }}
+        </tr>
+        {% else %}
+        <tr><td class="text-center text-secondary py-4" colspan="{{ col_keys|length + 1 }}">No records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+      <tbody>
+        {% for r in resources %}
+        <tr>
+          <td>{{ r.name }}</td>
+          <td>
+            {% if r.link %}
+              {% if r.is_url %}
+                <a href="{{ r.link }}" target="_blank" rel="noopener" class="text-truncate d-inline-block" style="max-width: 260px;">
+                  <i class="bi bi-box-arrow-up-right"></i> {{ r.link }}
+                </a>
+              {% else %}
+                <span class="text-secondary"><i class="bi bi-file-earmark-text"></i> {{ r.link }}</span>
+              {% endif %}
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          <td class="small text-secondary">{{ r.instructions or "—" }}</td>
+          <td>
+            {% if r.status %}
+              <span class="badge status-badge status-{{ r.status|lower|replace(' ', '-') }}">{{ r.status }}</span>
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          {{ row_actions(r) }}
+        </tr>
+        {% else %}
+        <tr><td class="text-center text-secondary py-4" colspan="5">No records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+  </div>
+</div>
+{% endmacro %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('brand_view', brand_id=category.brand_id) }}">{{ category.brand.name }}</a></li>
+    {% if category.parent %}
+    <li class="breadcrumb-item"><a href="{{ url_for('category_view', category_id=category.parent.id) }}">{{ category.parent.name }}</a></li>
+    {% endif %}
+    <li class="breadcrumb-item active">{{ category.name }}</li>
+  </ol>
+</nav>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+  <h2 class="fw-bold mb-0" style="color: {{ category.brand.color }};">{{ category.name }}</h2>
+  {% if not categories and not tabs %}
+  <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addResourceModal"
+          data-action="{{ url_for('resource_new', category_id=category.id) }}" data-category="{{ category.name }}">
+    <i class="bi bi-plus-lg"></i> Add Resource
+  </button>
+  {% elif categories %}
+  <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+    <i class="bi bi-plus-lg"></i> New Project
+  </button>
+  {% endif %}
+</div>
+
+{% if tabs %}
+<ul class="nav nav-pills mb-4 category-tabs" role="tablist">
+  {% for t in tabs %}
+  <li class="nav-item" role="presentation">
+    <button class="nav-link {% if loop.first %}active{% endif %}" id="tab-btn-{{ t.id }}"
+            data-bs-toggle="pill" data-bs-target="#tab-{{ t.id }}" type="button" role="tab">
+      {{ t.name }}
+      <span class="badge rounded-pill tab-count">{{ t.resource_count }}</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+
+<div class="tab-content">
+  {% for t in tabs %}
+  <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="tab-{{ t.id }}" role="tabpanel">
+    {{ resource_table(t.resources, tab_cols.get(t.id, [None, {}])[0] or [], tab_cols.get(t.id, [None, {}])[1] or {}) }}
+  </div>
+  {% endfor %}
+</div>
+{% elif categories %}
+<div class="row g-4">
+  {% for cat in categories %}
+  <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+    <a href="{{ url_for('category_view', category_id=cat.id) }}" class="text-decoration-none">
+      <div class="card brand-card h-100 shadow-sm" style="--brand-color: {{ category.brand.color }};">
+        <div class="brand-card-bar"></div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold mb-1">{{ cat.name }}</h5>
+          {% if cat.children %}
+          <p class="text-secondary small mb-3">1 project · {{ cat.children|length }} tabs</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge rounded-pill brand-badge">1 project</span>
+            <i class="bi bi-arrow-right-circle fs-5 text-secondary"></i>
+          </div>
+          {% else %}
+          <p class="text-secondary small mb-3">{{ cat.resource_count }} records</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge rounded-pill brand-badge">{{ cat.resource_count }} items</span>
+            <i class="bi bi-arrow-right-circle fs-5 text-secondary"></i>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+{{ resource_table(category.resources, col_keys, field_labels) }}
+{% endif %}
+
+<!-- New Project Modal -->
+<div class="modal fade" id="newProjectModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form method="post" action="{{ url_for('category_project_new', category_id=category.id) }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New Project in {{ category.name }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Project Name</label>
+          <input type="text" class="form-control" name="name" required placeholder="e.g. Coinbank 2025">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Project</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Resource Modal -->
+<div class="modal fade" id="addResourceModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form method="post" id="addResourceForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Resource</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-secondary mb-3" id="addResourceCategory"></p>
+          <div class="mb-3">
+            <label class="form-label">Program / Project Name</label>
+            <input type="text" class="form-control" name="data_Program / Project Name" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Resource</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  var modal = document.getElementById('addResourceModal');
+  if (!modal) return;
+  modal.addEventListener('show.bs.modal', function (e) {
+    var btn = e.relatedTarget;
+    modal.querySelector('#addResourceForm').action = btn.dataset.action;
+    modal.querySelector('#addResourceCategory').textContent = 'Category: ' + btn.dataset.category;
+  });
+})();
+</script>
+{% endblock %}

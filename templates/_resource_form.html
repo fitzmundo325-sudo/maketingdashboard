@@ -1,0 +1,25 @@
+<form method="post" action="{{ url_for('resource_edit', resource_id=resource.id) if resource else url_for('resource_new', category_id=category.id) }}">
+  <input type="hidden" name="next" value="{{ back_url }}">
+  {% set dyn_keys = resource.data_keys if (resource and resource.data) else template_keys %}
+  {% for key in dyn_keys %}
+  <div class="mb-3">
+    <label class="form-label">{{ field_labels.get(key, key) }}</label>
+    {% set cur = resource.data[key] if (resource and resource.data and resource.data[key] is not none) else '' %}
+    {% if key|lower == 'status' and (not cur or cur in status_choices) %}
+    <select class="form-select" name="data_{{ key }}">
+      <option value="">—</option>
+      {% for s in status_choices %}
+        <option value="{{ s }}" {% if cur == s %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    {% else %}
+    <input type="text" class="form-control" name="data_{{ key }}" value="{{ cur }}">
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-between">
+    <a href="{{ back_url }}" class="btn btn-outline-secondary" data-edit-cancel>Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ 'Save Changes' if resource else 'Add Resource' }}</button>
+  </div>
+</form>
