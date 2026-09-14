@@ -3,6 +3,8 @@
 Stores the full Excel row as Resource.data (JSON) so the edit form can render
 one labeled field per column. Use --backfill to fill `data` on rows imported
 before this feature existed (only rows with data IS NULL are touched).
+
+Run as a module from the project root: python -m website.excel_import <xlsx>
 """
 import os
 import sys
@@ -10,8 +12,8 @@ from datetime import datetime
 
 import openpyxl
 
-from app import app, db, Brand, Category, Resource, get_or_create_category
-from excel_mappings import FILES, PARENT_CATEGORIES
+from website.views import get_or_create_category, rebuild_from_data
+from website.excel_mappings import FILES, PARENT_CATEGORIES
 
 
 def fmt(v):
@@ -102,11 +104,14 @@ def _make_resource(row, mapping, tab, i):
 
 
 def _sync_from_data(res, mapping):
-    from app import rebuild_from_data
     rebuild_from_data(res)
 
 
 def run_import(xlsx_path, backfill=False, update=False):
+    from website import create_app, db
+    from website.models import Brand, Category, Resource
+
+    app = create_app()
     if not os.path.exists(xlsx_path):
         print(f"File not found: {xlsx_path}")
         return False

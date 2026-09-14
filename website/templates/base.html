@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a2f96">
+  <title>{% block title %}HYG Marketing Department Database{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* Page content enter animation */
+    @keyframes content-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .content-enter { animation: content-in 0.25s ease both; }
+
+    /* Toast notifications */
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 360px;
+    }
+    .toast-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.8rem 1rem;
+      border-radius: 0.85rem;
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+      animation: toast-in 0.25s ease both;
+    }
+    .toast-item.toast-success { background: #059669; }
+    .toast-item.toast-error   { background: #dc2626; }
+    .toast-item.toast-info    { background: #1d4ed8; }
+    .toast-item.toast-warning { background: #d97706; }
+    .toast-item.toast-secondary { background: #475569; }
+    .toast-item .toast-close {
+      margin-left: auto;
+      opacity: 0.75;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+    }
+    .toast-item .toast-close:hover { opacity: 1; }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .toast-item.toast-out {
+      animation: toast-out 0.25s ease both;
+    }
+    @keyframes toast-out {
+      from { opacity: 1; }
+      to   { opacity: 0; transform: translateY(-8px); }
+    }
+
+  </style>
+  <script>
+    // Toast helper (global), cficountsystem-style flash handling
+    window.toast = {
+      show: function (message, category) {
+        var colors = { success: 'toast-success', error: 'toast-error', danger: 'toast-error', info: 'toast-info', warning: 'toast-warning' };
+        var container = document.getElementById('toast-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'toast-container';
+          container.className = 'toast-container';
+          document.body.appendChild(container);
+        }
+        var item = document.createElement('div');
+        item.className = 'toast-item ' + (colors[category] || 'toast-secondary');
+        var span = document.createElement('span');
+        span.textContent = message;
+        var close = document.createElement('button');
+        close.className = 'toast-close';
+        close.innerHTML = '&times;';
+        close.onclick = function () { dismiss(); };
+        item.appendChild(span);
+        item.appendChild(close);
+        container.appendChild(item);
+        var timer = setTimeout(dismiss, 4000);
+        function dismiss() {
+          if (!item.parentNode) return;
+          clearTimeout(timer);
+          item.classList.add('toast-out');
+          setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 260);
+        }
+      }
+    };
+    document.addEventListener('DOMContentLoaded', function () {
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            window.toast.show({{ message|tojson }}, {{ category|tojson }});
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    });
+  </script>
+
+  {% block head %}{% endblock %}
+</head>
+<body class="m-0 overflow-x-hidden">
+
+  <!-- Topbar (blue, matches home hero) -->
+  <nav class="sticky top-0 z-40 bg-[#1a2f96]/95 backdrop-blur border-b border-white/10">
+    <div class="flex items-center gap-3 px-4 md:px-6 h-16">
+      <!-- Logo -->
+      <a href="{{ url_for('views.dashboard') }}" class="flex items-center gap-3 min-w-0 shrink-0">
+        <img src="{{ static_url('img/hyg-logo.png') }}" alt="HYG Group of Companies" class="w-10 h-auto shrink-0">
+        <span class="text-white leading-tight min-w-0 hidden sm:block">
+          <span class="block text-sm font-bold tracking-tight whitespace-nowrap">HYG Marketing</span>
+          <span class="block text-[0.6rem] font-semibold uppercase tracking-wide text-blue-200 whitespace-nowrap">Department Database</span>
+        </span>
+      </a>
+
+      <!-- Nav links -->
+      <div class="flex items-center gap-1 ml-4">
+        <a href="{{ url_for('views.dashboard') }}"
+           class="text-sm font-semibold rounded-xl px-3 py-2 whitespace-nowrap transition-colors {{ 'bg-white/15 text-white' if request.endpoint == 'views.dashboard' else 'text-blue-100 hover:text-white hover:bg-white/10' }}">
+          Home
+        </a>
+      </div>
+
+      <!-- Right side: global search + user + logout -->
+      <div class="ml-auto flex items-center gap-2">
+        <form class="relative hidden md:block w-56 lg:w-72" role="search" action="{{ url_for('views.search') }}" method="get">
+          <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none text-blue-200/70">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <input type="search" id="global-search" name="q" value="{{ request.args.get('q','') }}"
+                 placeholder="Search all resources..."
+                 class="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/15 rounded-xl text-sm text-white placeholder:text-blue-200/60 focus:ring-2 focus:ring-white/50 focus:bg-white/15 outline-none transition-all">
+        </form>
+
+        <div class="hidden sm:flex items-center gap-2.5 bg-white/10 rounded-xl pl-1.5 pr-3 py-1.5">
+          <div class="w-7 h-7 rounded-lg bg-indigo-400/30 flex items-center justify-center text-indigo-200 font-bold text-xs shrink-0">
+            {{ (current_user.username or 'U')[:1]|upper }}
+          </div>
+          <div class="leading-tight min-w-0">
+            <div class="text-xs font-semibold text-white truncate">{{ current_user.username|default('User', true) }}</div>
+            <div class="text-[0.62rem] text-blue-200/80">{{ current_user.role|default('Member', true) }}</div>
+          </div>
+        </div>
+
+        <a href="{{ url_for('auth.logout') }}" class="inline-flex items-center gap-2 bg-white text-blue-800 font-semibold text-sm rounded-xl px-3.5 py-2 shadow-lg shadow-blue-950/20 hover:bg-blue-50 transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="hidden sm:inline">Logout</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page content -->
+  <main id="main-content" class="app-page-shell p-4 md:p-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Edit Resource Modal (kept from previous design) -->
+  <div id="editResourceModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-modal-close></div>
+    <div class="relative h-full flex items-center justify-center p-4">
+      <div class="bg-white w-full max-w-2xl max-h-[85vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
+          <h5 class="text-base font-bold text-slate-900">Edit Resource</h5>
+          <button type="button" data-modal-close class="w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors">
+            <svg class="mx-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div id="editResourceBody" class="p-6 overflow-y-auto custom-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Edit modal
+      var editModalEl = document.getElementById('editResourceModal');
+      var body = document.getElementById('editResourceBody');
+      function closeModal() { editModalEl.classList.add('hidden'); }
+      editModalEl.querySelectorAll('[data-modal-close]').forEach(function (el) {
+        el.addEventListener('click', closeModal);
+      });
+
+      document.addEventListener('click', function (e) {
+        var link = e.target && e.target.closest ? e.target.closest('a.btn-edit') : null;
+        if (!link) return;
+        e.preventDefault();
+        var sep = link.getAttribute('href').indexOf('?') === -1 ? '?' : '&';
+        fetch(link.getAttribute('href') + sep + 'fragment=1')
+          .then(function (res) {
+            if (!res.ok) throw new Error('Failed to load the form (' + res.status + ')');
+            return res.text();
+          })
+          .then(function (html) {
+            body.innerHTML = html;
+            editModalEl.classList.remove('hidden');
+            var cancel = body.querySelector('[data-edit-cancel]');
+            if (cancel) cancel.addEventListener('click', function (ev) { ev.preventDefault(); closeModal(); });
+          })
+          .catch(function (err) {
+            body.innerHTML = '<div class="rounded-2xl bg-red-50 text-red-700 p-4 text-sm">' + err.message + '</div>';
+            editModalEl.classList.remove('hidden');
+          });
+      });
+
+      document.addEventListener('submit', function (e) {
+        if (editModalEl.classList.contains('hidden')) return;
+        var form = body.querySelector('form');
+        if (!form || e.target !== form) return;
+        e.preventDefault();
+        fetch(form.action, { method: 'POST', body: new FormData(form) })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Save failed (' + res.status + ')');
+            closeModal();
+            location.reload();
+          })
+          .catch(function (err) {
+            var alertBox = body.querySelector('.bg-red-50');
+            if (alertBox) alertBox.remove();
+            var div = document.createElement('div');
+            div.className = 'rounded-2xl bg-red-50 text-red-700 p-4 text-sm mb-4';
+            div.textContent = err.message;
+            form.parentNode.insertBefore(div, form);
+          });
+      });
+    })();
+  </script>
+  <script>
+  (function () {
+    // Client-side table pagination for tables marked with data-paginate
+    var PAGE_SIZES = [10, 25, 50, 100];
+
+    function pageNumbers(pages, current) {
+      var out = [];
+      for (var i = 0; i < pages; i++) {
+        if (i === 0 || i === pages - 1 || Math.abs(i - current) <= 2) {
+          out.push(i);
+        } else if (out[out.length - 1] !== '\u2026') {
+          out.push('\u2026');
+        }
+      }
+      return out;
+    }
+
+    function init(table) {
+      var tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      var rows = Array.prototype.filter.call(tbody.children, function (tr) {
+        var first = tr.querySelector('td');
+        return first && !first.hasAttribute('colspan');
+      });
+      if (rows.length <= PAGE_SIZES[0]) return; // single page, no pagination needed
+
+      var host = table.closest('.bg-white.rounded-3xl') || table.parentElement;
+      var footer = document.createElement('div');
+      footer.className = 'flex flex-wrap items-center justify-between gap-2 px-4 py-3 border-t border-slate-100 bg-slate-50/60';
+      footer.innerHTML =
+        '<small class="text-xs text-slate-400 pagination-info"></small>' +
+        '<div class="flex items-center gap-2 flex-wrap">' +
+        '<select class="pagination-size px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 outline-none" aria-label="Rows per page">' +
+        PAGE_SIZES.map(function (n) { return '<option value="' + n + '">' + n + ' / page</option>'; }).join('') +
+        '<option value="' + rows.length + '">All</option>' +
+        '</select>' +
+        '<div class="flex items-center gap-1 pagination-pages"></div>' +
+        '</div>';
+      host.appendChild(footer);
+
+      var info = footer.querySelector('.pagination-info');
+      var pagesEl = footer.querySelector('.pagination-pages');
+      var sizeEl = footer.querySelector('.pagination-size');
+      var size = parseInt(sizeEl.value, 10);
+      var current = 0;
+
+      function pageBtnHtml(page, label, disabled, active) {
+        return '<button type="button" data-page="' + page + '" class="min-w-[2rem] h-8 px-2 rounded-lg text-xs font-semibold transition-colors ' +
+          (active ? 'bg-slate-900 text-white' : disabled ? 'text-slate-300 cursor-default' : 'text-slate-600 hover:bg-slate-200/70') + '">' + (label || (page + 1)) + '</button>';
+    }
+
+      function render() {
+        var pages = Math.max(1, Math.ceil(rows.length / size));
+        if (current > pages - 1) current = pages - 1;
+        var start = current * size;
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].classList.toggle('hidden', i < start || i >= start + size);
+        }
+        info.textContent = 'Showing ' + (rows.length ? start + 1 : 0) + '\u2013' +
+          Math.min(start + size, rows.length) + ' of ' + rows.length;
+        var html = pageBtnHtml(current - 1, '\u2039', current === 0, false);
+        pageNumbers(pages, current).forEach(function (p) {
+          html += p === '\u2026'
+            ? '<span class="px-1 text-xs text-slate-400">\u2026</span>'
+            : pageBtnHtml(p, null, false, p === current);
+        });
+        html += pageBtnHtml(current + 1, '\u203a', current === pages - 1, false);
+        pagesEl.innerHTML = html;
+      }
+
+      sizeEl.addEventListener('change', function () {
+        size = parseInt(sizeEl.value, 10);
+        current = 0;
+        render();
+      });
+      pagesEl.addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-page]');
+        if (!btn) return;
+        var p = parseInt(btn.dataset.page, 10);
+        if (p < 0 || p >= Math.ceil(rows.length / size) || p === current) return;
+        current = p;
+        render();
+      });
+
+      render();
+    }
+
+    window.initPagination = function (root) {
+      (root || document).querySelectorAll('table[data-paginate]').forEach(init);
+    };
+    window.initPagination(document);
+  })();
+  </script>
+  <script>
+  (function () {
+    // Live filtering: fetch and swap only the results region - no page reload,
+    // so focus and scroll stay put and results feel instant.
+    var forms = document.querySelectorAll('form[data-autofilter]');
+    if (!forms.length) return;
+    var seq = 0;      // request token: only the latest response is applied
+    var timer = null;
+
+    function urlFor(form) {
+      var params = new URLSearchParams(new FormData(form));
+      Array.from(params.keys()).forEach(function (k) {
+        if (!params.get(k)) params.delete(k);
+      });
+      var qs = params.toString();
+      return (form.getAttribute('action') || window.location.pathname) + (qs ? '?' + qs : '');
+    }
+
+    function syncControls(form, freshForm) {
+      // keep the Clear link in sync without touching the focused input
+      var liveLink = form.querySelector('a');
+      var freshLink = freshForm.querySelector('a');
+      if (freshLink && liveLink) liveLink.setAttribute('href', freshLink.getAttribute('href'));
+      else if (freshLink && !liveLink) form.appendChild(document.adoptNode(freshLink));
+      else if (!freshLink && liveLink) liveLink.remove();
+    }
+
+    function apply(form, url) {
+      var token = ++seq;
+      var results = document.getElementById('filter-results');
+      if (results) results.classList.add('opacity-50', 'transition-opacity', 'duration-150');
+      fetch(url)
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          if (token !== seq) return; // a newer keystroke already superseded this
+          var doc = new DOMParser().parseFromString(text, 'text/html');
+          var fresh = doc.getElementById('filter-results');
+          var freshForm = doc.querySelector('form[data-autofilter]');
+          if (results && fresh) {
+            results.innerHTML = fresh.innerHTML;
+            results.classList.remove('opacity-50');
+          } else {
+            form.submit(); // unexpected layout - fall back to a normal reload
+            return;
+          }
+          if (freshForm) syncControls(form, freshForm);
+          if (window.initPagination) window.initPagination(results);
+          if (url !== window.location.pathname + window.location.search) {
+            history.replaceState({ autofilter: true }, '', url);
+          }
+        })
+        .catch(function () {
+          if (token === seq) form.submit();
+        });
+    }
+
+    forms.forEach(function (form) {
+      var text = form.querySelector('input[type="text"]');
+      var select = form.querySelector('select');
+
+      function queue(delay) {
+        clearTimeout(timer);
+        timer = setTimeout(function () { apply(form, urlFor(form)); }, delay);
+      }
+
+      if (text) text.addEventListener('input', function () { queue(150); });
+      if (select) select.addEventListener('change', function () {
+        clearTimeout(timer);
+        apply(form, urlFor(form));
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearTimeout(timer);
+        apply(form, urlFor(form));
+      });
+
+      // Clear link -> live reset, no reload
+      form.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a') : null;
+        if (!a) return;
+        e.preventDefault();
+        if (text) text.value = '';
+        if (select) select.value = '';
+        apply(form, a.getAttribute('href'));
+      });
+    });
+
+    // Back/forward re-applies the filter from the URL
+    window.addEventListener('popstate', function () {
+      var form = forms[0];
+      if (!form) return;
+      var params = new URLSearchParams(window.location.search);
+      var text = form.querySelector('input[type="text"]');
+      var select = form.querySelector('select');
+      if (text) text.value = params.get(text.name) || '';
+      if (select) select.value = params.get(select.name) || '';
+      apply(form, window.location.pathname + window.location.search);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Virtual Environment
+venv/
+/venv
+.venv/
+
+# Database files (DO NOT COMMIT DATABASE)
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Seed data
+parsed_data.json
+
+# Python cache & artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+/website/__pycache__
+
+# Environment & IDE
+.env
+.vscode/
+.idea/

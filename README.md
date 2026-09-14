@@ -1,31 +1,30 @@
-# HYG Marketing Hub
+# HYG Marketing Department Database
 
-A Flask app built from `HYG_MARKETING_MASTER_DATABASE.xlsx`. It turns the six brand
-tabs (GOLDILOCKS, SAVORY, ICEBERGS, TATERS, CHATIME, ELEVATE) into a searchable,
-editable web database instead of a spreadsheet.
+A Flask app that catalogs marketing resources by brand, imported from Excel workbooks.
 
-## What it does
+## Project structure
 
-- **Dashboard** — a card per brand with resource/category counts.
-- **Brand pages** — resources grouped into the same categories that existed as
-  section headers in each sheet (COINBANK, NOVELTIES, SPONSORSHIP DATABASE,
-  RUNNING PROMO, MANCOMM REPORTS, GIFT CERTS, etc.), with in-brand filtering by
-  keyword and status.
-- **Global search** — search name / link / instructions / created-by across every brand at once.
-- **Full CRUD** — add, edit, or delete resources and categories from the UI (no more
-  hunting for the right row in Excel).
-- **JSON API** — `/api/brands` and `/api/brand/<id>/resources` for hooking this up
-  to other tools (e.g. your GAS/PHP systems) later.
+```
+marketing-hub/
+├── app.py                  # thin entry point: from website import create_app
+├── run.cmd                 # windows launcher
+├── .env                    # MH_SECRET_KEY, MH_APP_DB_NAME (not committed)
+├── requirements.txt
+├── parsed_data.json        # seed data (auto-loads on first run if DB empty)
+└── website/                # application package
+    ├── __init__.py         # create_app() factory, db, seeding, CLI commands
+    ├── models.py           # User, Brand, Category, Resource
+    ├── views.py            # main blueprint (dashboard, brands, categories, CRUD)
+    ├── auth.py             # login/logout blueprint (Flask-Login)
+    ├── api_handles.py      # /apis JSON blueprint
+    ├── excel_mappings.py   # per-sheet Excel column mappings
+    ├── excel_import.py     # shared Excel importer
+    ├── import_*.py         # one-off importer entry scripts
+    ├── templates/
+    └── static/
+```
 
-## Data model
-
-- `Brand` (GOLDILOCKS, SAVORY, ...)
-- `Category` (the ALL-CAPS section headers from each sheet, scoped per brand)
-- `Resource` (a row: name, link/reference, instructions, created_by, access, status)
-
-The original "No." column was kept as free text (`ref_no`) since the sheet mixed
-numbers, dates, and `#REF!` errors — it's not used for anything functional, just
-carried over for reference.
+Structure mirrors the cficountsystem project (application-factory + blueprints).
 
 ## Run it
 
@@ -34,11 +33,22 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Then open http://localhost:5000
+Then open http://localhost:5000 and log in.
+
+### Create the first user
+
+```bash
+flask --app app create-admin
+```
+
+(Username + password are prompted; passwords are hashed with werkzeug.)
+
+## Seed data
 
 On first run the app auto-creates `marketing_hub.db` (SQLite) and seeds it from
-`parsed_data.json` (the cleaned Excel export). Delete `marketing_hub.db` and restart
-to re-seed from scratch — any edits made in the UI will be lost when you do that.
+`parsed_data.json` (the cleaned Excel export) if the DB is empty. Delete
+`marketing_hub.db` and restart to re-seed from scratch — any edits made in the
+UI will be lost when you do that.
 
 ## Notes on the source data
 
@@ -48,11 +58,35 @@ to re-seed from scratch — any edits made in the UI will be lost when you do th
   rather than URLs (e.g. `COINBANK DATABASE`), not live hyperlinks. Those show as
   plain text with a file icon in the UI; anything starting with `http(s)://` renders
   as a clickable link.
-- A few rows had category headers with no rows under them, or rows before the
-  first category header (treated as "General").
 
-## Next steps you might want
+## Excel imports
 
-- Swap SQLite for a shared DB (Postgres/MySQL) if more than one person needs to edit at once.
-- Add login/auth if this goes beyond your local machine.
-- Wire the `link` field to actually open Google Drive files via the Drive API instead of pasting names.
+The one-off importers run as modules from the project root:
+
+```bash
+python -m website.import_coinbank
+python -m website.excel_import "path/to/file.xlsx" [--update | --backfill]
+```
+
+### Master database import
+
+`HYG MARKETING MASTER DATABASE.xlsx` (one sheet per brand) is supported by a
+dedicated importer that reads the workbook's own layout:
+
+- each sheet becomes a **brand** (GOLDILOCKS, SAVORY, ICEBERGS, TATERS,
+  CHATIME, ELEVATE)
+- the header row is located dynamically (column order differs per sheet)
+- ALL-CAPS section rows (e.g. `NOVELTIES`, `MANCOMM REPORTS`, `GIFT CERTS`)
+  become **categories**; the resources under them are grouped accordingly
+- cleanup is automatic: `#REF!` refs, `None`/`0.0` links, float `1.0`-style
+  numbers, datetime cells, and status values stuck in the Name column
+
+```bash
+python -m website.import_master "C:\path\to\HYG MARKETING MASTER DATABASE.xlsx" [--replace]
+# or
+flask --app app import-master
+```
+
+`--replace` removes each matched brand's existing resources first (brands and
+categories are kept). Without it, resources are appended to the matching
+categories.
