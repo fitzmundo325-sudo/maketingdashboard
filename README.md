@@ -13,8 +13,8 @@ marketing-hub/
 ├── parsed_data.json        # seed data (auto-loads on first run if DB empty)
 └── website/                # application package
     ├── __init__.py         # create_app() factory, db, seeding, CLI commands
-    ├── models.py           # User, Brand, Category, Resource
-    ├── views.py            # main blueprint (dashboard, brands, categories, CRUD)
+    ├── models.py           # User, Brand, Category, Resource, GoogleSheet(+Rows)
+    ├── views.py            # main blueprint (dashboard, brands, categories, CRUD, Google links)
     ├── auth.py             # login/logout blueprint (Flask-Login)
     ├── api_handles.py      # /apis JSON blueprint
     ├── excel_mappings.py   # per-sheet Excel column mappings
@@ -90,3 +90,28 @@ flask --app app import-master
 `--replace` removes each matched brand's existing resources first (brands and
 categories are kept). Without it, resources are appended to the matching
 categories.
+
+Sheets that aren't shared publicly show as "failed" in the registry with the
+HTTP error — they keep their links but their data can't be mirrored without
+Google OAuth.
+
+## Google Links registry + mirrored sheet data
+
+Every Google URL on a resource (Sheets, Docs, Slides, Forms, Drive files,
+Apps Script) is tracked in its own `google_sheets` database table, deduplicated
+by document ID. Google **Sheets** additionally get their contents mirrored into
+the `google_sheet_rows` table via the public CSV export endpoint — no Google
+login required.
+
+- **Registry page:** `/sheets` ("Google Links" in the top nav) lists all
+  entries with sync status, type pills, search, and add/edit/remove/sync.
+- **Data viewer:** clicking a sheet link (or the "View Data" pill on resources)
+  opens `/sheets/<id>` inside the app, showing the mirrored rows with search.
+  "Open in Google" is still available on that page.
+- **Auto-registration:** adding/editing a resource with a Google link upserts
+  the registry row and pulls the sheet's data on first sight.
+- **CLI:** `flask --app app backfill-google-sheets` (register new links),
+  `flask --app app sync-google-sheets` (re-pull every sheet's data).
+
+Registry rows keep: title, canonical URL, document ID, type, owner, status,
+notes, sync timestamp/status/error, and the resources using them.

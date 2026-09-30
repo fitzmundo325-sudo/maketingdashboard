@@ -1,12 +1,13 @@
-{% macro url_pill(url) -%}
+{% macro url_pill(url, data_url=None) -%}
   {%- if 'docs.google.com' in url -%}
-    {% set pill_bg, pill_txt, label = 'bg-emerald-50', 'text-emerald-700 hover:bg-emerald-100', 'Google Sheet' %}
+    {% set pill_bg, pill_txt = 'bg-emerald-50', 'text-emerald-700 hover:bg-emerald-100' %}
+    {% set label = 'View Data' if data_url else 'Google Sheet' %}
   {%- elif 'canva.com' in url -%}
     {% set pill_bg, pill_txt, label = 'bg-fuchsia-50', 'text-fuchsia-700 hover:bg-fuchsia-100', 'Canva Design' %}
   {%- else -%}
     {% set pill_bg, pill_txt, label = 'bg-indigo-50', 'text-indigo-600 hover:bg-indigo-100', 'Open Link' %}
   {%- endif -%}
-  <a href="{{ url }}" target="_blank" rel="noopener" title="{{ url }}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full {{ pill_bg }} px-2.5 py-1 text-[0.72rem] font-semibold {{ pill_txt }} transition-colors">
+  <a href="{{ data_url or url }}" {% if not data_url %}target="_blank" rel="noopener"{% endif %} title="{{ url }}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full {{ pill_bg }} px-2.5 py-1 text-[0.72rem] font-semibold {{ pill_txt }} transition-colors">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
     {{ label }}
   </a>

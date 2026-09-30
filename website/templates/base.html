@@ -154,6 +154,11 @@
            class="text-sm font-semibold rounded-xl px-3 py-2 whitespace-nowrap transition-colors {{ 'bg-white/15 text-white' if request.endpoint == 'views.dashboard' else 'text-blue-100 hover:text-white hover:bg-white/10' }}">
           Home
         </a>
+        <a href="{{ url_for('views.sheets_view') }}"
+           class="inline-flex items-center gap-1.5 text-sm font-semibold rounded-xl px-3 py-2 whitespace-nowrap transition-colors {{ 'bg-white/15 text-white' if request.endpoint in ('views.sheets_view', 'views.sheet_new', 'views.sheet_edit', 'views.sheet_data_view') else 'text-blue-100 hover:text-white hover:bg-white/10' }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+          Google Links
+        </a>
       </div>
 
       <!-- Right side: global search + user + logout -->

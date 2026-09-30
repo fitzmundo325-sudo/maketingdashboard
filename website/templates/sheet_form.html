@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if sheet else 'Add' }} Google Link · HYG Marketing Department Database{% endblock %}
+{% block content %}
+<div class="content-enter">
+
+  <!-- Breadcrumb -->
+  <nav class="flex flex-wrap items-center gap-1.5 text-sm text-slate-400 mb-4" aria-label="Breadcrumb">
+    <a href="{{ url_for('views.sheets_view') }}" class="hover:text-indigo-500 transition-colors">Google Links</a>
+    <span>/</span>
+    <span class="text-slate-700 font-medium">{{ 'Edit' if sheet else 'Add' }} Link</span>
+  </nav>
+
+  <div class="max-w-2xl bg-white rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/50 p-6 md:p-8">
+    <h4 class="text-lg font-bold text-slate-900 tracking-tight">{{ 'Edit Google Link' if sheet else 'Add Google Link' }}</h4>
+    <p class="text-sm text-slate-500 mt-1 mb-6">
+      {% if sheet %}
+        Registry entry{% if sheet.doc_id %} for document ID <code class="text-xs bg-slate-100 rounded px-1.5 py-0.5">{{ sheet.doc_id }}</code>{% endif %}.
+      {% else %}
+        Paste a Google Sheets/Docs/Slides/Forms or Drive link. It's deduplicated by document ID, and Sheets get their data mirrored automatically.
+      {% endif %}
+    </p>
+
+    <form method="post" class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Link <span class="text-red-400">*</span></label>
+        <input type="url" name="url" value="{{ sheet.url if sheet else '' }}" required
+               placeholder="https://docs.google.com/spreadsheets/d/..."
+               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400">
+        <p class="text-xs text-slate-400 mt-1.5">Must be a docs.google.com or drive.google.com URL.</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Title</label>
+        <input type="text" name="title" value="{{ sheet.title if sheet else '' }}"
+               placeholder="e.g. Coin Bank Request"
+               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400">
+        <p class="text-xs text-slate-400 mt-1.5">Leave blank to auto-name it (Google Sheet, Google Doc, ...).</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Owner</label>
+          <input type="text" name="owner" value="{{ sheet.owner or '' }}"
+                 placeholder="e.g. Marketing"
+                 class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Status</label>
+          <select name="status"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all">
+            <option value="">—</option>
+            {% for s in status_choices %}
+              <option value="{{ s }}" {% if sheet and sheet.status == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Notes</label>
+        <textarea name="notes" rows="3"
+                  placeholder="Anything worth remembering about this file..."
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400">{{ sheet.notes or '' }}</textarea>
+      </div>
+
+      <div class="flex justify-between pt-2">
+        <a href="{{ back_url }}"
+           class="px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all">Cancel</a>
+        <button type="submit"
+                class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-all active:scale-[0.98] shadow-lg shadow-slate-900/15">
+          {{ 'Save Changes' if sheet else 'Add Link' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

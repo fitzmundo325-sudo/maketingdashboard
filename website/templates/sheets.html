@@ -1,0 +1,134 @@
+{% from '_url_pill.html' import url_pill %}
+{% extends "base.html" %}
+{% block title %}Google Links · HYG Marketing Department Database{% endblock %}
+{% block content %}
+<div class="content-enter">
+
+  <!-- Header -->
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Google Links</h2>
+      <p class="text-sm text-slate-500 mt-1">
+        Every Google Sheet, Doc, Slides, Form, and Drive file used across all brands — deduplicated by document ID.
+        Sheets get their <span class="font-semibold text-slate-700">data mirrored</span> into this app's database.
+      </p>
+    </div>
+    <a href="{{ url_for('views.sheet_new') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-2xl hover:bg-slate-800 transition-all active:scale-[0.98] shadow-lg shadow-slate-900/15">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      Add Link
+    </a>
+  </div>
+
+  <!-- Type summary pills -->
+  <div class="flex flex-wrap gap-2 mb-5">
+    <a href="{{ url_for('views.sheets_view') }}"
+       class="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-sm font-semibold transition-all {{ 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' if not type_filter else 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' }}">
+      All <span class="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[0.65rem] font-bold {{ 'bg-white/15 text-white' if not type_filter else 'bg-slate-100 text-slate-500' }}">{{ sheets|length }}</span>
+    </a>
+    {% for t in doc_types %}
+    {% if type_counts.get(t) %}
+    <a href="{{ url_for('views.sheets_view', type=t) }}"
+       class="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-sm font-semibold transition-all {{ 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' if type_filter == t else 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' }}">
+      {{ t }}s <span class="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[0.65rem] font-bold {{ 'bg-white/15 text-white' if type_filter == t else 'bg-slate-100 text-slate-500' }}">{{ type_counts.get(t) }}</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Filter bar -->
+  <form class="flex flex-wrap items-center gap-2 mb-5 bg-white border border-slate-100 rounded-3xl shadow-sm shadow-slate-200/50 p-3" method="get" data-autofilter>
+    <div class="relative flex-1 min-w-[200px]">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <input type="text" name="q" value="{{ q }}" placeholder="Filter by title, owner, URL, notes..."
+             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400">
+    </div>
+    {% if q or type_filter %}
+    <a href="{{ url_for('views.sheets_view') }}"
+       class="inline-flex items-center px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all">Clear</a>
+    {% endif %}
+  </form>
+
+  <div id="filter-results">
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/50 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left" data-paginate>
+          <thead class="bg-slate-50/80 border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500">Title</th>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500">Type</th>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500">Data</th>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500">Used in</th>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500">Status</th>
+              <th class="px-4 py-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            {% for s in sheets %}
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="px-4 py-3.5 max-w-[280px]">
+                <a href="{{ url_for('views.sheet_data_view', sheet_id=s.id) if s.is_syncable else s.edit_url }}"
+                   {% if not s.is_syncable %}target="_blank" rel="noopener"{% endif %}
+                   class="font-medium text-slate-900 hover:text-indigo-600 transition-colors" title="{{ s.url }}">
+                  {{ s.title }}
+                </a>
+                {% if s.notes %}<div class="text-xs text-slate-400 mt-0.5 truncate">{{ s.notes }}</div>{% endif %}
+                {% if s.resources %}<div class="text-[0.68rem] text-slate-400 mt-0.5 truncate">in: {{ s.resources|map(attribute='category.name')|join(', ')|truncate(80) }}</div>{% endif %}
+              </td>
+              <td class="px-4 py-3.5">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.7rem] font-semibold bg-emerald-50 text-emerald-700">{{ s.doc_type }}</span>
+              </td>
+              <td class="px-4 py-3.5">
+                {% if s.is_syncable %}
+                  {% if s.last_synced_at %}
+                    <span class="text-xs text-slate-600">{{ s.tabs|length }} tab{{ 's' if s.tabs|length != 1 }} · {{ s.total_rows }} rows</span>
+                    <span class="text-[0.65rem] block text-slate-400">synced {{ s.last_synced_at.strftime('%b %d, %H:%M') }}</span>
+                    {% if not s.last_sync_ok %}<span class="text-[0.65rem] text-red-500">failed</span>{% endif %}
+                  {% else %}
+                    <span class="text-xs text-amber-600">not synced</span>
+                  {% endif %}
+                {% else %}
+                  <span class="text-slate-300">—</span>
+                {% endif %}
+              </td>
+              <td class="px-4 py-3.5 text-slate-700 text-xs whitespace-nowrap">{{ s.resource_count }} resource{{ 's' if s.resource_count != 1 }}</td>
+              <td class="px-4 py-3.5">
+                {% if s.status %}
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.7rem] font-semibold bg-slate-100 text-slate-700">{{ s.status }}</span>
+                {% else %}<span class="text-slate-300">—</span>{% endif %}
+              </td>
+              <td class="px-4 py-3.5 text-right whitespace-nowrap">
+                {% if s.is_syncable %}
+                <form action="{{ url_for('views.sheet_sync', sheet_id=s.id) }}" method="post" class="inline">
+                  <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-colors" title="Re-sync data from Google">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+                  </button>
+                </form>
+                {% endif %}
+                <a href="{{ s.edit_url }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-emerald-600 transition-colors" title="Open in Google">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+                <a href="{{ url_for('views.sheet_edit', sheet_id=s.id) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-indigo-600 transition-colors" title="Edit registry entry">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                </a>
+                <form action="{{ url_for('views.sheet_delete', sheet_id=s.id) }}" method="post" class="inline" onsubmit="return confirm('Remove this Google link from the registry? (Resources keep their links.)');">
+                  <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors" title="Remove from registry">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+            {% if not sheets %}
+            <tr><td colspan="6" class="px-4 py-10 text-center text-slate-400 text-sm">
+              {% if q or type_filter %}No Google links match your filter.{% else %}No Google links registered yet — add one, or they'll be picked up automatically when resources link to Google files.{% endif %}
+            </td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

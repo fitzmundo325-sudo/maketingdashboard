@@ -3,7 +3,8 @@ from flask_login import login_required
 
 from . import db, STATUS_CHOICES
 from . import sort_brands
-from .models import Brand, Category, Resource, GENERIC_FIELDS
+from .models import (Brand, Category, Resource, GoogleSheet, GENERIC_FIELDS,
+                     google_doc_kind, _extract_google_id, GOOGLE_DOC_DOMAINS)
 from .excel_mappings import mapping_for
 
 views = Blueprint("views", __name__)
@@ -148,6 +149,18 @@ def back_url(fallback):
     if ref.startswith(request.host_url):
         return ref
     return fallback
+
+
+def register_google_link(resource):
+    """If a resource's link is a Google URL, upsert it in the google_sheets
+    registry, point the resource at that row, and pull sheet data for Sheets."""
+    if not resource.is_url or "google." not in (resource.link or ""):
+        return
+    row, _ = GoogleSheet.upsert_from_url(resource.link, title=resource.name)
+    if row:
+        resource.google_sheet_id = row.id
+        if row.is_syncable and row.last_synced_at is None:
+            row.sync_data()
 
 
 def submitted_back_url(fallback):
@@ -308,6 +321,7 @@ def resource_new(category_id):
                 sort_order=len(category.resources) + 1,
             )
             db.session.add(resource)
+            register_google_link(resource)
         db.session.commit()
         flash(f"Added resource '{resource.name}' to {category.name}.", "success")
         return redirect(submitted_back_url(fallback))
@@ -338,6 +352,7 @@ def resource_edit(resource_id):
             resource.created_by = request.form.get("created_by", "").strip()
             resource.access = request.form.get("access", "").strip()
             resource.status = request.form.get("status", "").strip()
+            register_google_link(resource)
         db.session.commit()
         flash(f"Updated resource '{resource.name}'.", "success")
         return redirect(submitted_back_url(fallback))
@@ -387,3 +402,169 @@ def category_project_new(category_id):
         db.session.commit()
         flash(f"Added project '{name}'.", "success")
     return redirect(url_for("views.category_view", category_id=category.id))
+
+
+# ---------------------------------------------------------------------------
+# Routes - Google Sheets registry + mirrored data
+# ---------------------------------------------------------------------------
+
+SHEET_DOC_TYPES = ["Sheet", "Doc", "Slides", "Form", "Drive file", "Apps Script"]
+
+
+@views.route("/sheets")
+@login_required
+def sheets_view():
+    q = request.args.get("q", "").strip()
+    type_filter = request.args.get("type", "").strip()
+
+    query = GoogleSheet.query
+    if q:
+        like = f"%{q}%"
+        query = query.filter(
+            db.or_(
+                GoogleSheet.title.ilike(like),
+                GoogleSheet.url.ilike(like),
+                GoogleSheet.owner.ilike(like),
+                GoogleSheet.notes.ilike(like),
+            )
+        )
+    if type_filter:
+        query = query.filter(GoogleSheet.doc_type == type_filter)
+
+    sheets = query.order_by(GoogleSheet.title).all()
+    counts = dict(
+        db.session.query(GoogleSheet.doc_type, db.func.count(GoogleSheet.id))
+        .group_by(GoogleSheet.doc_type)
+        .all()
+    )
+    return render_template(
+        "sheets.html",
+        sheets=sheets,
+        q=q,
+        type_filter=type_filter,
+        doc_types=SHEET_DOC_TYPES,
+        type_counts=counts,
+    )
+
+
+@views.route("/sheets/new", methods=["GET", "POST"])
+@login_required
+def sheet_new():
+    fallback = url_for("views.sheets_view")
+    if request.method == "POST":
+        url = request.form.get("url", "").strip()
+        title = request.form.get("title", "").strip()
+        if not url:
+            flash("A link is required.", "danger")
+            return redirect(fallback)
+        if not any(domain in url for domain in GOOGLE_DOC_DOMAINS):
+            flash("That doesn't look like a Google link (docs/drive/script.google.com).", "danger")
+            return redirect(fallback)
+        if not title:
+            title = _fallback_sheet_title(url)
+        row, created = GoogleSheet.upsert_from_url(url, title=title)
+        row.owner = request.form.get("owner", "").strip() or None
+        row.status = request.form.get("status", "").strip() or None
+        row.notes = request.form.get("notes", "").strip() or None
+        if row.is_syncable and row.last_synced_at is None:
+            row.sync_data()
+        db.session.commit()
+        if created:
+            flash(f"Registered Google link '{row.title}'.", "success")
+        else:
+            flash(f"Updated existing registry entry for '{row.title}'.", "info")
+        return redirect(fallback)
+    return render_template("sheet_form.html", sheet=None, doc_types=SHEET_DOC_TYPES,
+                           status_choices=STATUS_CHOICES, back_url=fallback)
+
+
+@views.route("/sheets/<int:sheet_id>/edit", methods=["GET", "POST"])
+@login_required
+def sheet_edit(sheet_id):
+    sheet = GoogleSheet.query.get_or_404(sheet_id)
+    fallback = url_for("views.sheets_view")
+    if request.method == "POST":
+        sheet.title = request.form.get("title", "").strip() or sheet.title
+        new_url = request.form.get("url", "").strip()
+        if new_url and new_url != sheet.url:
+            sheet.url = new_url
+            sheet.doc_id = _extract_google_id(new_url)
+            sheet.doc_type = google_doc_kind(new_url)
+        sheet.owner = request.form.get("owner", "").strip() or None
+        sheet.status = request.form.get("status", "").strip() or None
+        sheet.notes = request.form.get("notes", "").strip() or None
+        db.session.commit()
+        flash(f"Updated '{sheet.title}'.", "success")
+        return redirect(fallback)
+    return render_template("sheet_form.html", sheet=sheet, doc_types=SHEET_DOC_TYPES,
+                           status_choices=STATUS_CHOICES, back_url=fallback)
+
+
+@views.route("/sheets/<int:sheet_id>/delete", methods=["POST"])
+@login_required
+def sheet_delete(sheet_id):
+    sheet = GoogleSheet.query.get_or_404(sheet_id)
+    for r in Resource.query.filter_by(google_sheet_id=sheet.id).all():
+        r.google_sheet_id = None
+    name = sheet.title
+    db.session.delete(sheet)
+    db.session.commit()
+    flash(f"Removed '{name}' from the Google links registry.", "info")
+    return redirect(url_for("views.sheets_view"))
+
+
+@views.route("/sheets/<int:sheet_id>")
+@login_required
+def sheet_data_view(sheet_id):
+    """In-app viewer of a Google Sheet's mirrored data, one tab at a time."""
+    sheet = GoogleSheet.query.get_or_404(sheet_id)
+    q = request.args.get("q", "").strip()
+
+    tabs = sheet.tabs
+    active_tab = None
+    rows = []
+    if tabs:
+        tab_param = request.args.get("tab", type=int)
+        if tab_param is not None:
+            active_tab = next((t for t in tabs if t.id == tab_param), None)
+        if active_tab is None:
+            active_tab = tabs[0]
+        rows = active_tab.rows
+
+    if q and rows:
+        ql = q.lower()
+        rows = [r for r in rows if any(ql in str(v).lower() for v in r.values)]
+
+    return render_template(
+        "sheet_data.html",
+        sheet=sheet,
+        tabs=tabs,
+        active_tab=active_tab,
+        rows=rows,
+        q=q,
+    )
+
+
+@views.route("/sheets/<int:sheet_id>/sync", methods=["POST"])
+@login_required
+def sheet_sync(sheet_id):
+    """Re-pull the sheet's current data from Google."""
+    sheet = GoogleSheet.query.get_or_404(sheet_id)
+    ok = sheet.sync_data()
+    if ok:
+        flash(f"Synced '{sheet.title}' ({len(sheet.tabs)} tabs, {sheet.total_rows} data rows).", "success")
+    else:
+        flash(f"Sync failed for '{sheet.title}': {sheet.last_sync_error}", "danger")
+    return redirect(request.referrer or url_for("views.sheet_data_view", sheet_id=sheet.id))
+
+
+def _fallback_sheet_title(url):
+    """Readable default title when the user leaves the title blank."""
+    return {
+        "Sheet": "Google Sheet",
+        "Doc": "Google Doc",
+        "Slides": "Google Slides",
+        "Form": "Google Form",
+        "Drive file": "Google Drive file",
+        "Apps Script": "Apps Script",
+    }.get(google_doc_kind(url), "Google link")

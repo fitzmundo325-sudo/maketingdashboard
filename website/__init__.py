@@ -120,6 +120,28 @@ def _ensure_user_role_column():
         conn.commit()
 
 
+def _ensure_google_sheets_tables():
+    """Create the google_sheets/google_sheet_rows tables + resources.google_sheet_id
+    FK on existing DBs (db.create_all() adds new tables but won't alter existing ones)."""
+    from sqlalchemy import text
+
+    with db.engine.connect() as conn:
+        existing_columns = {
+            row[1]
+            for row in conn.execute(text("PRAGMA table_info('resources')")).fetchall()
+        }
+        if "google_sheet_id" not in existing_columns:
+            conn.execute(text("ALTER TABLE resources ADD COLUMN google_sheet_id INTEGER"))
+        # multi-tab support: rows move under google_sheet_tabs
+        row_cols = {
+            row[1]
+            for row in conn.execute(text("PRAGMA table_info('google_sheet_rows')")).fetchall()
+        }
+        if row_cols and "tab_id" not in row_cols:
+            conn.execute(text("ALTER TABLE google_sheet_rows ADD COLUMN tab_id INTEGER"))
+        conn.commit()
+
+
 def _seed_from_json(path):
     """Populate the database from the parsed Excel JSON, only if empty."""
     from .models import Brand, Category, Resource
@@ -205,13 +227,28 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    from .models import Brand, Category, Resource, User  # noqa: F401
+    from .models import (Brand, Category, Resource, GoogleSheet, GoogleSheetTab,
+                         GoogleSheetRow, User)  # noqa: F401
 
     with app.app_context():
         db.create_all()
         _ensure_resource_data_column()
         _ensure_user_role_column()
+        _ensure_google_sheets_tables()
         _seed_from_json(str(BASE_DIR / "parsed_data.json"))
+        # First run after this feature: register every Google link already on resources
+        if GoogleSheet.query.first() is None:
+            created = GoogleSheet.backfill_from_resources()
+            if created:
+                print(f"Seeded google_sheets registry with {created} links from existing resources.")
+        # One-time migration: rows synced before multi-tab support carry no tab.
+        # Re-pull any sheets whose tab structure is missing.
+        stale = [s for s in GoogleSheet.query.filter_by(doc_type="Sheet").all()
+                 if s.last_sync_ok and not s.tabs]
+        if stale:
+            print(f"Re-syncing {len(stale)} sheet(s) for multi-tab support...")
+            for s in stale:
+                s.sync_data()
         print("Created database!")
 
     @app.context_processor
@@ -226,6 +263,7 @@ def create_app():
             "field_value": field_value,
             "brand_logo": brand_logo,
             "static_url": static_url,
+            "sheet_data_url": sheet_data_url,
         }
 
     @app.after_request
@@ -267,6 +305,20 @@ def create_app():
             db.session.commit()
             print(f"Admin user '{username}' created.")
 
+    @app.cli.command("backfill-google-sheets")
+    def backfill_google_sheets_command():
+        """Scan all resources, register new Google links, and pull sheet data."""
+        with app.app_context():
+            created = GoogleSheet.backfill_from_resources()
+        print(f"Backfill complete: {created} new Google link(s) registered.")
+
+    @app.cli.command("sync-google-sheets")
+    def sync_google_sheets_command():
+        """Re-pull data (all tabs) for every registered Google Sheet."""
+        with app.app_context():
+            sheets = GoogleSheet.query.filter_by(doc_type="Sheet").all()
+            ok = sum(1 for s in sheets if s.sync_data())
+        print(f"Synced {ok}/{len(sheets)} sheets (all tabs).")
     @app.cli.command("import-master")
     def import_master_command():
         """Import HYG MARKETING MASTER DATABASE.xlsx (per-sheet brand sections)."""
@@ -296,3 +348,14 @@ def field_value(resource, key):
     if attr:
         return getattr(resource, attr) or ""
     return ""
+
+
+def sheet_data_url(resource):
+    """Internal URL of a resource's Google Sheet data page, or None when the
+    link isn't a Google URL that has a registry entry."""
+    if not resource.is_url or "google." not in (resource.link or ""):
+        return None
+    from .models import GoogleSheet, _extract_google_id
+    doc_id = _extract_google_id(resource.link)
+    row = GoogleSheet.query.filter_by(doc_id=doc_id).first() if doc_id else None
+    return f"/sheets/{row.id}" if row else None
