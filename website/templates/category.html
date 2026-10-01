@@ -68,8 +68,8 @@
             {%- if k|lower == 'status' and val in status_choices -%}
             {{ status_pill(val) }}
             {%- elif val and val.lower().startswith(('http://', 'https://')) -%}
-            {% set data_url = sheet_data_url(r) if sheet_data_url else None %}
-            {{ url_pill(val, data_url) }}
+            {% set cell_data_url = sheet_data_url(r, val) if sheet_data_url else None %}
+            {{ url_pill(val, cell_data_url) }}
             {%- elif val -%}{{ val }}{%- else -%}<span class="text-slate-300">—</span>{%- endif -%}
           </td>
           {% endfor %}

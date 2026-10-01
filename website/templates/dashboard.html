@@ -120,15 +120,15 @@
 </div>
 
 <script>
-  (function () {
-    var btn = document.getElementById('heroSearchBtn');
-    var form = document.getElementById('heroSearchForm');
-    if (!btn || !form) return;
-    var input = form.querySelector('input');
-    btn.addEventListener('click', function () {
-      form.classList.toggle('hidden');
-      if (!form.classList.contains('hidden') && input) input.focus();
-    });
-  })();
+(function () {
+  var btn = document.getElementById('heroSearchBtn');
+  var form = document.getElementById('heroSearchForm');
+  if (!btn || !form) return;
+  var input = form.querySelector('input');
+  btn.addEventListener('click', function () {
+    form.classList.toggle('hidden');
+    if (!form.classList.contains('hidden') && input) input.focus();
+  });
+})();
 </script>
 {% endblock %}

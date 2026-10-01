@@ -1,7 +1,7 @@
 """Importer for HYG MARKETING MASTER DATABASE.xlsx.
 
 Understands the workbook's layout:
-  - one sheet per brand (GOLDILOCKS, SAVORY, ICEBERGS, TATERS, CHATIME, ELEVATE)
+  - one sheet per brand (GOLDILOCKS, SAVORE, ICEBERGS, TATERS, CHATIME, ELEVATE)
   - a brand title row, then a column header row (labels located dynamically,
     since column order differs per sheet: GOLDILOCKS uses "Specific
     Instructions" while the other brands use "Date Created" there)

@@ -73,7 +73,7 @@ python -m website.excel_import "path/to/file.xlsx" [--update | --backfill]
 `HYG MARKETING MASTER DATABASE.xlsx` (one sheet per brand) is supported by a
 dedicated importer that reads the workbook's own layout:
 
-- each sheet becomes a **brand** (GOLDILOCKS, SAVORY, ICEBERGS, TATERS,
+- each sheet becomes a **brand** (GOLDILOCKS, SAVORE, ICEBERGS, TATERS,
   CHATIME, ELEVATE)
 - the header row is located dynamically (column order differs per sheet)
 - ALL-CAPS section rows (e.g. `NOVELTIES`, `MANCOMM REPORTS`, `GIFT CERTS`)

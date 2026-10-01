@@ -18,7 +18,7 @@ PACKAGE_DIR = Path(__file__).resolve().parent
 
 BRAND_COLORS = {
     "GOLDILOCKS": "#D4AF37",
-    "SAVORY": "#000080",
+    "SAVORE": "#000080",
     "ICEBERGS": "#00A0DF",
     "TATERS": "#E4002B",
     "CHATIME": "#6E2C8C",
@@ -251,6 +251,14 @@ def create_app():
                 s.sync_data()
         print("Created database!")
 
+    @app.route('/sw.js')
+    def service_worker():
+        response = app.send_static_file('sw.js')
+        response.headers['Content-Type'] = 'application/javascript; charset=utf-8'
+        response.headers['Service-Worker-Allowed'] = '/'
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        return response
+
     @app.context_processor
     def inject_sidebar():
         from .models import Brand
@@ -350,12 +358,19 @@ def field_value(resource, key):
     return ""
 
 
-def sheet_data_url(resource):
-    """Internal URL of a resource's Google Sheet data page, or None when the
-    link isn't a Google URL that has a registry entry."""
-    if not resource.is_url or "google." not in (resource.link or ""):
+def sheet_data_url(resource, url=None):
+    """Internal URL of a Google Sheet data page, or None when the URL isn't a
+    Google link that has a registry entry.
+
+    Resolves from `url` when given (e.g. a cell value that carries its own
+    link, which may differ from the resource's main link), else from the
+    resource's own link."""
+    link = url if url is not None else (resource.link if resource else None)
+    if not link or not str(link).strip().lower().startswith(("http://", "https://")):
+        return None
+    if "google." not in link:
         return None
     from .models import GoogleSheet, _extract_google_id
-    doc_id = _extract_google_id(resource.link)
+    doc_id = _extract_google_id(link)
     row = GoogleSheet.query.filter_by(doc_id=doc_id).first() if doc_id else None
     return f"/sheets/{row.id}" if row else None

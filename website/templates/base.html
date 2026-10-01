@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1a2f96">
+  <meta name="application-name" content="HYG Marketing">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="HYG Marketing">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>{% block title %}HYG Marketing Department Database{% endblock %}</title>
+
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,6 +189,16 @@
             <div class="text-[0.62rem] text-blue-200/80">{{ current_user.role|default('Member', true) }}</div>
           </div>
         </div>
+
+        <!-- PWA install (shared pwa.js shows this when the app is installable) -->
+        <button type="button" class="pwa-install-btn hidden inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/10 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+          <span class="hidden md:inline">Install App</span>
+        </button>
 
         <a href="{{ url_for('auth.logout') }}" class="inline-flex items-center gap-2 bg-white text-blue-800 font-semibold text-sm rounded-xl px-3.5 py-2 shadow-lg shadow-blue-950/20 hover:bg-blue-50 transition-colors">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -459,5 +477,6 @@
     });
   })();
   </script>
+  <script src="{{ url_for('static', filename='js/pwa.js') }}?v=pwa-1"></script>
 </body>
 </html>
